@@ -96,7 +96,29 @@ def delete_match(request, match_id):
         return HttpResponseRedirect(reverse("index"))
     else:
         return HttpResponseRedirect(reverse("index"))
+    
 
+def delete_team(request, team_id):
+    if request.user.is_superuser:
+        team = get_object_or_404(Team, id=team_id)
+        team.delete()
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return HttpResponseRedirect(reverse("index"))
+
+
+def place_bet(request, match_id):
+    if request.method == "GET" and request.user.is_authenticated and not request.user.is_superuser:
+        match = get_object_or_404(Match, id=match_id)
+        team1_name = match.team1.name.lower().replace(" ","-")
+        team2_name = match.team2.name.lower().replace(" ","-")
+        return render(request, "betlord/placeBet.html", {
+            "match": match,
+            "team1_name": team1_name,
+            "team2_name": team2_name,
+        })
+    else:
+        return HttpResponseRedirect(reverse("index"))
 
 def register(request):
     if request.method == "POST":

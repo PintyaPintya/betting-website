@@ -9,4 +9,6 @@ urlpatterns = [
     path("create-team/", views.create_team, name="create-team"),
     path("create-match/", views.create_match, name="create-match"),
     path("delete-match/<int:match_id>/", views.delete_match, name="delete-match"),
+    path("delete-team/<int:team_id>/", views.delete_team, name="delete-team"),
+    path("place-bet/<int:match_id>/", views.place_bet, name="place-bet"),
 ]

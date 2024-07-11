@@ -11,22 +11,25 @@
             <a href="{% url 'create-team' %}"><button class="btn btn-primary">Create Team</button></a>
             <a href="{% url 'create-match' %}"><button class="btn btn-primary">Create Match</button></a>
 
-            {% for user in users %}
-                <li class="list-unstyled mt-3 ml-3">
-                    <strong>{{user.username}} </strong>
-                </li>
-            {% endfor%}
-
             {% for team in teams %}
                 <li class="list-unstyled mt-3 ml-3">
-                    <strong>{{team.name}} {{team.tag}} </strong>
+                    <strong>{{team.name}}</strong>
+                    <a href="{% url 'delete-team' team.id %}"><button class="btn btn-danger">Delete</button></a>
                 </li>
             {% endfor%}
 
             {% for match in matches %}
                 <li class="list-unstyled mt-3 ml-3">
                     <strong>{{match.team1.name}} vs {{match.team2.name}} </strong>
-                    <a href="{% url 'delete-match' match.id %}"><button class="btn btn-primary">Delete</button></a>
+                    <a href="{% url 'delete-match' match.id %}"><button class="btn btn-danger">Delete</button></a>
+                </li>
+            {% endfor%}
+
+        {% else %}
+            {% for match in matches %}
+                <li class="list-unstyled mt-3 ml-3">
+                    <strong>{{match.team1.name}} vs {{match.team2.name}} </strong>
+                    <a href="{% url 'place-bet' match.id %}"><button class="btn btn-primary">Place Bet</button></a>
                 </li>
             {% endfor%}
 

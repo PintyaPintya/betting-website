@@ -1,0 +1,38 @@
+{% extends "betlord/layout.html" %}
+
+{% block title %}
+    Place Bet
+{% endblock %}
+
+{% block body %}
+    <h2>Place Your Bet</h2>
+    <p>{{ match.team1.name }} vs {{ match.team2.name }}</p>
+
+    {% if message %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+
+    <ul>
+        <li>
+            <img style="max-width: 100px;" src="https://raw.githubusercontent.com/lootmarket/esport-team-logos/master/dota-2/{{team1_name}}/{{team1_name}}-logo.png" alt="{{team1_name}} logo">
+            <span>{{ match.team1.name }}</span>
+            <form action="{% url 'place-bet' match.id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="team_choice" value="{{ match.team1.id }}">
+                <button type="submit">Place Bet</button>
+            </form>
+        </li>
+        <li>
+            <img style="max-width: 100px;" src="https://raw.githubusercontent.com/lootmarket/esport-team-logos/master/dota-2/{{team2_name}}/{{team2_name}}-logo.png" alt="{{team2_name}} logo">
+            <span>{{ match.team2.name }}</span>
+            <form action="{% url 'place-bet' match.id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="team_choice" value="{{ match.team2.id }}">
+                <button type="submit">Place Bet</button>
+            </form>
+        </li>
+    </ul>
+
+    <p><a href="{% url 'index' %}">Back to Matches</a></p>
+
+{% endblock %}
