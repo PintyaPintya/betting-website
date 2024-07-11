@@ -1,12 +1,36 @@
 {% extends "betlord/layout.html" %}
 
 {% block title %}
-    Bet index
+    Betlord
 {% endblock %}
 
 {% block body %}
     {% if user.is_authenticated %}
         <p>Hello, {{ user.username }} </p>
+        {% if user.is_superuser %}
+            <a href="{% url 'create-team' %}"><button class="btn btn-primary">Create Team</button></a>
+            <a href="{% url 'create-match' %}"><button class="btn btn-primary">Create Match</button></a>
+
+            {% for user in users %}
+                <li class="list-unstyled mt-3 ml-3">
+                    <strong>{{user.username}} </strong>
+                </li>
+            {% endfor%}
+
+            {% for team in teams %}
+                <li class="list-unstyled mt-3 ml-3">
+                    <strong>{{team.name}} {{team.tag}} </strong>
+                </li>
+            {% endfor%}
+
+            {% for match in matches %}
+                <li class="list-unstyled mt-3 ml-3">
+                    <strong>{{match.team1.name}} vs {{match.team2.name}} </strong>
+                    <a href="{% url 'delete-match' match.id %}"><button class="btn btn-primary">Delete</button></a>
+                </li>
+            {% endfor%}
+
+        {% endif %}
         <a href="{% url 'logout' %}"><button class="btn btn-primary">Logout</button></a>
     {% else %}
         <a href="{% url 'register' %}"><button class="btn btn-primary">Register</button></a>

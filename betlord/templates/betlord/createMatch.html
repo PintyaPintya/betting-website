@@ -1,0 +1,33 @@
+{% extends "betlord/layout.html" %}
+
+{% block title %}
+    Create Match
+{% endblock %}
+
+{% block body %}
+    {% if message %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'create-match' %}" method="post">
+        {% csrf_token %}
+
+        <label for="team1">Team 1:</label>
+        <select name="team1" id="team1" required>
+            <option value="" disabled selected>Select Team 1</option>
+            {% for team in teams %}
+                <option value="{{ team.name }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="team2">Team 2:</label>
+        <select name="team2" id="team2" required>
+            <option value="" disabled selected>Select Team 2</option>
+            {% for team in teams %}
+                <option value="{{ team.name }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+
+        <input class="btn btn-primary" type="submit" value="Create Match">
+    </form>
+{% endblock %}
