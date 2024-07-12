@@ -108,15 +108,39 @@ def delete_team(request, team_id):
 
 
 def place_bet(request, match_id):
-    if request.method == "GET" and request.user.is_authenticated and not request.user.is_superuser:
-        match = get_object_or_404(Match, id=match_id)
-        team1_name = match.team1.name.lower().replace(" ","-")
-        team2_name = match.team2.name.lower().replace(" ","-")
+    match = get_object_or_404(Match, id=match_id)
+    team1_name = match.team1.name.lower().replace(" ","-")
+    team2_name = match.team2.name.lower().replace(" ","-")
+    if request.method == "GET" and request.user.is_authenticated and not request.user.is_superuser:       
         return render(request, "betlord/placeBet.html", {
             "match": match,
             "team1_name": team1_name,
             "team2_name": team2_name,
         })
+    elif request.method == "POST" and request.user.is_authenticated and not request.user.is_superuser:
+        user = request.user
+        user_choice = get_object_or_404(Team, id=request.POST.get('user_choice'))
+
+        bets = Bet.objects.all()
+        for bet in bets:
+            if bet.user == user and bet.match == match:
+                matches = Match.objects.all()
+                return render(
+                    request,
+                    "betlord/index.html",
+                    {"matches": matches ,"message": "Bet already placed"},
+                )
+
+        try:
+            Bet.objects.create(match=match, user=user, user_choice=user_choice)
+        except IntegrityError:
+            return render(request, "betlord/placeBet.html", {
+                    "match": match,
+                    "team1_name": team1_name,
+                    "team2_name": team2_name,
+                })
+        
+        return HttpResponseRedirect(reverse("index"))
     else:
         return HttpResponseRedirect(reverse("index"))
 

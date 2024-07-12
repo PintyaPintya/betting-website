@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block body %}
+    {% if message %}
+        <div class="alert alert-danger mt-3">{{ message }}</div> 
+    {% endif %}
+    
     {% if user.is_authenticated %}
         <p>Hello, {{ user.username }} </p>
         {% if user.is_superuser %}

@@ -18,7 +18,7 @@
             <span>{{ match.team1.name }}</span>
             <form action="{% url 'place-bet' match.id %}" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="team_choice" value="{{ match.team1.id }}">
+                <input type="hidden" name="user_choice" value="{{ match.team1.id }}">
                 <button type="submit">Place Bet</button>
             </form>
         </li>
@@ -27,7 +27,7 @@
             <span>{{ match.team2.name }}</span>
             <form action="{% url 'place-bet' match.id %}" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="team_choice" value="{{ match.team2.id }}">
+                <input type="hidden" name="user_choice" value="{{ match.team2.id }}">
                 <button type="submit">Place Bet</button>
             </form>
         </li>
